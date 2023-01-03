@@ -1,0 +1,1 @@
+export { UIText, Body, Caption, Headline, Title1, Title2, Title3, LargeTitle} from './Text'

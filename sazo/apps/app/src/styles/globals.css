@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    #__next {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    body {
+        @apply bg-white;
+    }
+
+    button, a {
+        @apply border border-transparent ring-transparent ring-2 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:outline-none focus-visible:border-blue-500 touch-none;
+    }
+
+    button {
+        @apply select-none;
+    }
+}
+
+@layer components {
+    .prose {
+        h1, h2, h3, h4, h5, h6 {
+            @apply text-base font-bold;
+        }
+
+        .mention {
+            @apply font-medium text-black;
+        }
+
+        li {
+            @apply my-0 leading-relaxed list-item;
+        }
+    }
+
+    /* the MarkdownEditor component doesn't render html the same way as the HTMLRenderer component */
+    .prose.editing :where(p):not(:where([class~="not-prose"] *)),
+    .prose.editing :where(ol):not(:where([class~="not-prose"] *)),
+    .prose.editing :where(ul):not(:where([class~="not-prose"] *)),
+    .prose.editing :where(pre):not(:where([class~="not-prose"] *)) {
+        @apply mt-0 mb-3;
+    }
+
+    .prose pre {
+        @apply whitespace-pre-wrap;
+    }
+
+    .prose *:first-of-type {
+        @apply mt-0;
+    }
+
+    .prose *:last-child {
+        @apply mb-0;
+    }
+
+    .prose a {
+        @apply break-all;
+    }
+
+    .bg-dots {
+        background: linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
+        linear-gradient(#f9fafb 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
+        background-size: 16px 16px;
+    }
+
+    .bg-dots.dark {
+        background: linear-gradient(90deg, #111 15px, transparent 1%) center,
+        linear-gradient(#111 15px, transparent 1%) center, rgba(255, 255, 255, 0.24);
+        background-size: 16px 16px;
+    }
+
+    .bg-grid {
+        background-size: 48px 48px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    }
+
+    .prose {
+        h1, h2, h3, h4, h5, h6 {
+            @apply font-semibold text-black;
+        }
+    }
+
+    .tag-picker input:focus {
+        @apply ring-0;
+    }
+}
+
+
