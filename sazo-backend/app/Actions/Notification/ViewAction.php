@@ -15,7 +15,7 @@ class ViewAction extends Action
 {
     public static function execute(User $user): NotificationCollection
     {
-        $notifications = $user->notifications();
+        $notifications = $user->notifications;
 
         return new NotificationCollection(
             resource: $notifications

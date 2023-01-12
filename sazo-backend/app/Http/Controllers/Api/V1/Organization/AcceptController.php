@@ -13,7 +13,7 @@ class AcceptController extends Controller
 {
     public function __invoke(Request $request, Organization $organization)
     {
-        $organization = AcceptAction::execute($organization);
+        AcceptAction::execute($organization);
 
         return new JsonResponse(
             data: ['status' => 'success'],

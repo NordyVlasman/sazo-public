@@ -2,19 +2,17 @@
 
 namespace Database\Factories;
 
-use App\DataObjects\PostObject;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-final class PostFactory
+class PostFactory extends Factory
 {
-    public static function make(array $attributes): PostObject
+    /**
+     * Define the model's default state.
+     */
+    public function definition(): array
     {
-        return new PostObject(
-            author_id:          $attributes['author_id'],
-            description:        $attributes['description'] ?? null,
-            description_html:   $attributes['description_html'] ?? null,
-            files:              $attributes['files'] ?? null,
-            workarea:           $attributes['workarea'] ?? null,
-            career:             $attributes['career'] ?? null
-        );
+        return [
+            //
+        ];
     }
 }

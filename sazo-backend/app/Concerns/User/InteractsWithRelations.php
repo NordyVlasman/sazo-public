@@ -49,9 +49,9 @@ trait InteractsWithRelations
      * Retrieve the notifications associated with the user.
      *
      */
-    public function notifications() : HasMany
+    public function notifications(): HasMany
     {
-        return $this->hasMany(Notification::class, 'user_id');
+        return $this->hasMany(Notification::class);
     }
 
     public function hasBookmarked(int $post): bool

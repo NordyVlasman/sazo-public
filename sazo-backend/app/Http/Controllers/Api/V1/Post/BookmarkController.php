@@ -54,7 +54,7 @@ class BookmarkController extends Controller
         $user = $request->user();
 
         $posts = $user->bookmarks()
-            ->with('author', 'files', 'workarea', 'career', 'tags')
+            ->with(['tags', 'files', 'author', 'career', 'workarea'])
             ->get();
 
         return new JsonResponse(

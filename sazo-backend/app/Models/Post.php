@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Concerns\Post\InteractsWithRelations;
 use App\Concerns\Post\InteractsWithScopes;
 use App\Types\Model;
-use Database\Factories\Post\PostFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {

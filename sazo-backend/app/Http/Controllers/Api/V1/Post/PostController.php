@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api\V1\Post;
 use App\Actions\Feed\ViewAction;
 use App\Actions\Post\CreateAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Post\StoreRequest;
+use App\Http\Requests\PostRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
-use Database\Factories\PostFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,15 +30,10 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      */
-    public function store(StoreRequest $request): JsonResponse
+    public function store(PostRequest $request): JsonResponse
     {
         $post = (new CreateAction())->execute(
-            data: PostFactory::make(
-                attributes: [
-                    ...$request->validated(),
-                    'author_id' => $request->user()->id
-                ]
-            )
+            data: $request->toDTO($request->user()->id)
         );
 
         return new JsonResponse(

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Message;
 
+use App\Actions\Message\StoreAction;
 use App\Actions\Message\ViewAction;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
@@ -14,7 +15,6 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -24,12 +24,17 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Chat $chat)
     {
-        //
+        return new JsonResponse(
+            data: StoreAction::execute(
+                user: $request->user(),
+                chat: $chat,
+                message: $request->get('message')
+            ),
+            status: Response::HTTP_OK
+        );
     }
 
     /**
@@ -47,9 +52,6 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -59,8 +61,6 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

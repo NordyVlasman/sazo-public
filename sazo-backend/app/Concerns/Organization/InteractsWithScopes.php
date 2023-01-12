@@ -2,6 +2,8 @@
 
 namespace App\Concerns\Organization;
 
+use App\Support\Carbon;
+
 trait InteractsWithScopes
 {
     public function scopeWhereSearch($query, $search): void
@@ -20,5 +22,10 @@ trait InteractsWithScopes
         if ($filters->get('search')) {
             $query->whereSearch($filters->get('search'));
         }
+    }
+
+    public function scopeHumanDate(): string
+    {
+        return Carbon::parse($this->created_at)->format('d-m-Y');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Actions\User\CreateAction;
 use App\Console\Commands\Concerns\CanValidateInput;
+use App\DataObjects\UserObject;
 use Illuminate\Console\Command;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Hash;
@@ -54,31 +55,32 @@ class InstallCommand extends Command
         $this->components->twoColumnDetail('URL', value(Str::of(config('app.url'))->replace(['http://', 'https://'], '')));
         $this->components->twoColumnDetail('Maintenance', value($this->laravel->isDownForMaintenance() ? '<fg=yellow;options=bold>ENABLED</>' : 'OFF'));
         $this->newLine();
-        $this->components->twoColumnDetail('Github: https://github.com/nordyvlasman/sazo-backend');
+        $this->components->twoColumnDetail('Github: https://github.com/nordyvlasman/sazo-public');
         $this->newLine();
     }
 
     protected function refreshDatabase(): void
     {
-        $this->header('Database settings');
-        if ($this->components->confirm('Do you want to run the migrations to set up everything fresh? (php artisan migrate:fresh)', true)) {
-            $this->call('migrate:fresh');
+        $this->header(heading:'Database settings');
+
+        if ($this->components->confirm(question: 'Do you want to run the migrations to set up everything fresh? (php artisan migrate:fresh)')) {
+            $this->call(command: 'migrate:fresh');
         }
     }
 
     protected function seedDatabase(): void
     {
-        if ($this->components->confirm('Do you want to add basic data? (Roles, workareas etc.)', true)) {
-            $this->call('db:seed');
+        if ($this->components->confirm(question:'Do you want to add basic data? (Roles, Workareas etc.)')) {
+            $this->call(command: 'db:seed');
         }
     }
 
     protected function linkStorage(): void
     {
-        if (! file_exists(public_path('storage'))) {
-            $this->header('Storage');
-            if ($this->components->confirm('Your storage does not seem to be linked, do you want me to do this?')) {
-                $this->call('storage:link');
+        if (! file_exists(public_path(path: 'storage'))) {
+            $this->header(heading: 'Storage');
+            if ($this->components->confirm(question: 'Your storage does not seem to be linked, do you want me to do this?')) {
+                $this->call(command: 'storage:link');
             }
         }
     }
@@ -88,7 +90,19 @@ class InstallCommand extends Command
         $this->header('Admin Data');
 
         $data = $this->getAdminData();
-        app(CreateAction::class)->execute($data);
+
+        $userDto = new UserObject(
+            first_name: $data['first_name'],
+            last_name: $data['last_name'],
+            email: $data['email'],
+            tagline: null,
+            avatar_path: null,
+            username: $data['username'],
+            password: $data['password'],
+            password_confirmation: $data['password']
+        );
+
+        app(CreateAction::class)->execute(object: $userDto);
     }
 
     private function getAdminData(): array
@@ -126,9 +140,7 @@ class InstallCommand extends Command
 
     protected function generateRandomKey(): string
     {
-        return 'base64:'.base64_encode(
-                Encrypter::generateKey($this->laravel['config']['app.cipher'])
-            );
+        return 'base64:'.base64_encode(Encrypter::generateKey($this->laravel['config']['app.cipher']));
     }
 
     protected function keyReplacementPattern(): string

@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizationRequest;
 use App\Http\Resources\Organization\OrganizationResource;
 use App\Models\Organization;
-use Database\Factories\OrganizationFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -59,9 +58,7 @@ class OrganizationController extends Controller
     public function update(OrganizationRequest $request, Organization $organization): JsonResponse
     {
         $response = UpdateAction::execute(
-            object: OrganizationFactory::make(
-                attributes: $request->validated(),
-            ),
+            object: $request->toDTO(),
             organization: $organization
         );
 

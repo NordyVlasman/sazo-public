@@ -34,14 +34,15 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'api_secret_check']
      * Post routes
      */
     Route::prefix('/post')->as('post:')->group(function () {
+        Route::get('/bookmarked', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'index'])->name('index.bookmarked');
+        Route::post('/{post}/bookmark', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'addBookmark'])->name('add:bookmark');
+        Route::delete('/{post}/bookmark', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'removeBookmark'])->name('delete:bookmark');
+
         Route::get('/', [\App\Http\Controllers\Api\V1\Post\PostController::class, 'index'])->name('index');
         Route::post('/', [\App\Http\Controllers\Api\V1\Post\PostController::class, 'store'])->name('store');
         Route::get('/{post}', [\App\Http\Controllers\Api\V1\Post\PostController::class, 'show'])->name('show');
         Route::delete('/{post}', [\App\Http\Controllers\Api\V1\Post\PostController::class, 'destroy'])->name('destroy');
 
-        Route::get('/bookmarked', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'index'])->name('index.bookmarked');
-        Route::post('/{post}/bookmark', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'addBookmark'])->name('add:bookmark');
-        Route::delete('/{post}/bookmark', [\App\Http\Controllers\Api\V1\Post\BookmarkController::class, 'removeBookmark'])->name('delete:bookmark');
     });
 
     Route::prefix('feed')->as('feed:')->group(function () {
@@ -49,8 +50,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'api_secret_check']
     });
 
     Route::prefix('/post/{post}/comments')->as('comments:')->group(function () {
-        Route::get('/', \App\Http\Controllers\Api\V1\Comment\IndexController::class)->name('index');
-        Route::post('/', \App\Http\Controllers\Api\V1\Comment\StoreController::class)->name('store');
+        Route::get('/', [\App\Http\Controllers\Api\V1\Comment\CommentController::class, 'index'])->name('index');
+        Route::post('/', [\App\Http\Controllers\Api\V1\Comment\CommentController::class, 'store'])->name('store');
+        Route::delete('/{comment}', [\App\Http\Controllers\Api\V1\Comment\CommentController::class, 'destroy'])->name('destroy');
     });
 
     /**
@@ -94,5 +96,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'api_secret_check']
     Route::prefix('chats')->as('chat:')->group(function () {
         Route::get('/', [\App\Http\Controllers\Api\V1\Chat\ChatController::class, 'index'])->name('index');
         Route::get('/{chat}/messages', [\App\Http\Controllers\Api\V1\Message\MessageController::class, 'show'])->name('message.show');
+        Route::post('/{chat}/messages', [\App\Http\Controllers\Api\V1\Message\MessageController::class, 'store'])->name('message.store');
     });
 });

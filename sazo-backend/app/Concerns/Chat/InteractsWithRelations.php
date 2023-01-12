@@ -5,7 +5,6 @@ namespace App\Concerns\Chat;
 use App\Models\Message;
 use App\Models\User;
 use App\Services\Encryption\EncryptionService;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 

@@ -57,9 +57,7 @@ class UserController extends Controller
     public function update(UserRequest $request)
     {
         $response = UpdateAction::execute(
-            object: UserFactory::make(
-                attributes: $request->validated()
-            ),
+            object: $request->toDto(),
             user: $request->user()
         );
 

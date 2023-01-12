@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataObjects;
 
 use JustSteveKing\DataObjects\Contracts\DataObjectContract;
@@ -12,7 +10,7 @@ readonly class PostObject implements DataObjectContract
         public int $author_id,
         public string $description,
         public null|string $description_html,
-        public null|array $files,
+        public ?array $files,
         public null|string $workarea,
         public null|string $career,
     ) {}
@@ -23,7 +21,7 @@ readonly class PostObject implements DataObjectContract
             'author_id'         => $this->author_id,
             'description'       => $this->description,
             'description_html'  => $this->description_html,
-            'files'             => $this->files,
+            'files'             => $this->files ?: [],
             'workarea'          => $this->workarea,
             'career'            => $this->career,
         ];

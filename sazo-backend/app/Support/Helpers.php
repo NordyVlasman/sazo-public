@@ -46,3 +46,11 @@ function user() : User | null
 {
     return auth()->user();
 }
+
+/**
+ * More readable date
+ */
+function humanDate(string $data): string
+{
+    return Carbon::fromSerialized($data)->shortRelativeToNowDiffForHumans();
+}
