@@ -34,9 +34,11 @@ export function CommentComposer(props: Props) {
 
         if (markdown.trim() === emptyMarkdown) return
 
-        createComment.mutate({ body: markdown, html })
+        createComment.mutate(
+            { body: markdown, html }
+        )
 
-    }, [markdown, html, createComment, onCommentCreated])
+    }, [markdown, html, createComment, onCommentCreated, post])
 
     //@ts-ignore
     function handleCommandEnter(event: KeyboardEvent<HTMLFormElement>) {

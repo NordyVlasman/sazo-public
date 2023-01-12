@@ -9,6 +9,7 @@ export interface Comment {
     body: string;
     body_html: string;
     user: User;
+    is_optimistic?: boolean;
 }
 
 export interface CommentsPagination extends CursorPagination {

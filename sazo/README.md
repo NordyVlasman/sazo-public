@@ -20,7 +20,7 @@ $ pnpm install
 $ pnpm run dev
 ```
 
-That wil be all go to:
+That wil be all. Go to:
 - [http://localhost:3000](http://localhost:3000) for the user environment
 - [http://localhost:3001](http://localhost:3001) for the organization environment
 

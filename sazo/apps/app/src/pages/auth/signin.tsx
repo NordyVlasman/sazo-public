@@ -47,6 +47,8 @@ export default function LoginPage() {
                     <div className="space-y-6">
                         <TextField
                             type='email'
+                            name="email"
+                            id="email"
                             value={email}
                             onChange={setEmail}
                             placeholder="beau@ter.ham"
@@ -58,6 +60,8 @@ export default function LoginPage() {
 
                         <TextField
                             type="password"
+                            name="password"
+                            id="password"
                             value={password}
                             onChange={setPassword}
                             placeholder="password"
@@ -67,7 +71,7 @@ export default function LoginPage() {
                             onCommandEnter={submitForm}
                         />
 
-                        <Button submit fullWidth>
+                        <Button submit fullWidth id="signin">
                             Log in
                         </Button>
                     </div>

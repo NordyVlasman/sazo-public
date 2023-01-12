@@ -1,7 +1,7 @@
 import {useCallback} from "react";
 import toast from "react-hot-toast";
 import { Post, Comment } from "@sazo/types";
-import { Button, Dialog } from "@sazo/ui";
+import { Button, Dialog, DialogFooter } from "@sazo/ui";
 import { useDeleteComment } from "@sazo/core";
 
 interface Props {
@@ -37,7 +37,8 @@ export function DeleteCommentDialog({
             description="Are you sure you want to delete this comment?"
             width="max-w-sm"
         >
-            <div className="flex justify-end mt-4">
+            <DialogFooter>
+                <Button onClick={() => setIsVisible(false)}>Cancel</Button>
                 <Button
                     destructive
                     onClick={() =>
@@ -49,7 +50,7 @@ export function DeleteCommentDialog({
                 >
                     {deleteCommentMutation.isLoading ? "Deleting..." : "Delete"}
                 </Button>
-            </div>
+            </DialogFooter>
         </Dialog>
     )
 }

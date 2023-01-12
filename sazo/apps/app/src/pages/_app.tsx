@@ -14,7 +14,7 @@ import { Inter } from '@next/font/google';
 import ToasterProvider from "../components/Toast/ToastProvider";
 import { FullPageLoading } from "../components/Loaders/FullPageLoading";
 
-const interVariable = Inter();
+const inter = Inter({ subsets: ['latin'] })
 
 export default function App<T>({
   Component,
@@ -32,7 +32,7 @@ export default function App<T>({
           <CommentsDialogProvider>
           <ComposerGlobalDropzone />
             <ComposerDialog />
-            <main className={interVariable.className}>
+            <main className={inter.className}>
               {getLayout(<Component {...pageProps} />, { ...pageProps })}
             </main>
           </CommentsDialogProvider>

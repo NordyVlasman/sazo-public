@@ -1,9 +1,10 @@
 import { AVATAR_FALLBACK } from "@sazo/configuration";
-import { useGetCurrentUser, useGetMessages } from "@sazo/core";
+import { useGetCurrentUser, useGetMessages, useSendMessage } from "@sazo/core";
 import { Chat } from "@sazo/types";
 import { Avatar, Button, LoadingSpinner, TextField, Title2, Title3 } from "@sazo/ui";
 import classNames from "classnames";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import MarkdownEditor from "../MarkdownEditor";
 
 interface Props {
@@ -11,18 +12,27 @@ interface Props {
 }
 
 export function MessagesComponent({ chat }: Props) {
+    const sendMessage = useSendMessage(chat.id)
     const { data: messages } = useGetMessages(chat.id)
     const { data: currentUser } = useGetCurrentUser()
 
-    const emptyMarkdown = ""
-    const emptyHtml = "<p></p>";
-    const [markdown, setMarkdown] = useState(emptyMarkdown)
-    const [html, setHtml] = useState(emptyHtml)
+    const [message, setMessage] = useState("")
 
-    function onChange(markdown: string, html?: string) {
-        setMarkdown(markdown);
-        html && setHtml(html);
+    function handleSubmit(event: any) {
+        event.preventDefault()
+
+        sendMessage.mutate({
+            message
+        }, {
+            onSuccess: async () => {
+                setMessage("")
+            },
+            onError: (error: any) => {
+                toast.error(error.message)
+            }
+        })
     }
+
     if (!messages) return <LoadingSpinner />
 
     return (
@@ -50,6 +60,7 @@ export function MessagesComponent({ chat }: Props) {
             </div>
             <form
                 className="relative flex space-x-3 items-center p-2 border-t border-gray-200 bg-gray-50"
+                onSubmit={handleSubmit}
             >
                 <div>
                     <Avatar size={32} src={currentUser.avatar_url ? currentUser.avatar_url : AVATAR_FALLBACK} className={"rounded-full mt-1"} />
@@ -59,11 +70,11 @@ export function MessagesComponent({ chat }: Props) {
                         placeholder="Write a comment..."
                         className="w-full border-none ring-0 focus:ring-0"
                         type={"text"}
-                        onChange={() => onChange}
+                        onChange={(event) => setMessage(event.target.value)}
                         autoFocus
                     />
                     <Button
-                        disabled={markdown.trim().length === 0}
+                        disabled={message.trim().length === 0}
                         submit
                         onClick={() => null}
                     >

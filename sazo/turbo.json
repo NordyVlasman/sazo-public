@@ -13,6 +13,9 @@
     },
     "dev": {
       "cache": false
+    },
+    "cypress": {
+        "cache": false
     }
   },
   "globalEnv": [".env"]
