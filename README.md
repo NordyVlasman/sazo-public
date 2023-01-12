@@ -5,4 +5,4 @@ This codebase is the result of a school asignment for Gehandicaptenzorg. It incl
 - sazo-backend: the laravel api used for storing data and communicating between the frontend and encryption service.
 - sazo-encryption: a small encryption microservice made in nestjs used to create keypairs and encrypt/decrypt data for a chat.
 
-> This codebase is last updated on: 3-01-2023.
+> This codebase is last updated on: 12-01-2023.
